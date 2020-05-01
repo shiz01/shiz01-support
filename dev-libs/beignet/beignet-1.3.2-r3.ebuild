@@ -29,7 +29,7 @@ COMMON="app-eselect/eselect-opencl
 RDEPEND="${COMMON}"
 DEPEND="${COMMON}"
 
-LLVM_MAX_SLOT=7
+LLVM_MAX_SLOT=8
 
 PATCHES=(
 	"${FILESDIR}"/no-debian-multiarch.patch
@@ -37,6 +37,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-1.3.2_cmake-llvm-config-multilib.patch
 	"${FILESDIR}"/${PN}-1.3.2_llvm6.patch
 	"${FILESDIR}"/${PN}-1.3.2_llvm7.patch
+	"${FILESDIR}"/${PN}-1.3.2_llvm8.patch
 	"${FILESDIR}"/${PN}-1.3.1-oclicd_no_upstream_icdfile.patch
 	"${FILESDIR}"/${PN}-1.2.0_no-hardcoded-cflags.patch
 	"${FILESDIR}"/llvm-terminfo.patch
