@@ -19,11 +19,11 @@ IUSE="ocl-icd ocl20"
 
 BDEPEND="${PYTHON_DEPS}
 	virtual/pkgconfig"
-#app-eselect/eselect-opencl
+
 COMMON="
 	virtual/opencl
 	media-libs/mesa[X(+),${MULTILIB_USEDEP}]
-	<sys-devel/clang-9.0.0:=[static-analyzer,${MULTILIB_USEDEP}]
+	<sys-devel/clang-10.0.0:=[static-analyzer,${MULTILIB_USEDEP}]
 	>=x11-libs/libdrm-2.4.70[video_cards_intel,${MULTILIB_USEDEP}]
 	x11-libs/libXext[${MULTILIB_USEDEP}]
 	x11-libs/libXfixes[${MULTILIB_USEDEP}]
