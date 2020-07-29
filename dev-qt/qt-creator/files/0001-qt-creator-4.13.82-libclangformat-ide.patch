@@ -1,0 +1,74 @@
+From 67561f6d1b1b3c67f2dd37b280a80df72c7d1efd Mon Sep 17 00:00:00 2001
+From: shiz01 <shiz01@tutanota.com>
+Date: Wed, 29 Jul 2020 23:35:48 +0700
+Subject: [PATCH] qt-creator-4.13.82-libclangformat-ide
+
+---
+ src/plugins/clangformat/clangformatbaseindenter.h   | 3 ++-
+ src/plugins/clangformat/clangformatconfigwidget.cpp | 4 +++-
+ src/plugins/clangformat/clangformatutils.h          | 4 +++-
+ src/shared/clang/clang_installation.pri             | 4 ++--
+ 4 files changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/src/plugins/clangformat/clangformatbaseindenter.h b/src/plugins/clangformat/clangformatbaseindenter.h
+index 00dc3e9c7a..ba233c5fde 100644
+--- a/src/plugins/clangformat/clangformatbaseindenter.h
++++ b/src/plugins/clangformat/clangformatbaseindenter.h
+@@ -27,7 +27,8 @@
+ 
+ #include <texteditor/indenter.h>
+ 
+-#include <clang/Format/Format.h>
++// #include <clang/Format/Format.h>
++#include <clang/Format/FormatIDE.h>
+ 
+ namespace ClangFormat {
+ 
+diff --git a/src/plugins/clangformat/clangformatconfigwidget.cpp b/src/plugins/clangformat/clangformatconfigwidget.cpp
+index f1fa2c82ce..a6fa753733 100644
+--- a/src/plugins/clangformat/clangformatconfigwidget.cpp
++++ b/src/plugins/clangformat/clangformatconfigwidget.cpp
+@@ -32,7 +32,9 @@
+ #include "ui_clangformatchecks.h"
+ #include "ui_clangformatconfigwidget.h"
+ 
+-#include <clang/Format/Format.h>
++#include <clang/Format/FormatIDE.h>
++//#include <clang/Format/Format.h>
++
+ 
+ #include <coreplugin/icore.h>
+ #include <cppeditor/cpphighlighter.h>
+diff --git a/src/plugins/clangformat/clangformatutils.h b/src/plugins/clangformat/clangformatutils.h
+index 74fd84c9c6..91d74b98d7 100644
+--- a/src/plugins/clangformat/clangformatutils.h
++++ b/src/plugins/clangformat/clangformatutils.h
+@@ -28,7 +28,9 @@
+ #include <utils/fileutils.h>
+ #include <utils/id.h>
+ 
+-#include <clang/Format/Format.h>
++#include <clang/Format/FormatIDE.h>
++//#include <clang/Format/Format.h>
++
+ 
+ #include <QFile>
+ 
+diff --git a/src/shared/clang/clang_installation.pri b/src/shared/clang/clang_installation.pri
+index 2ef2cb425c..540b295470 100644
+--- a/src/shared/clang/clang_installation.pri
++++ b/src/shared/clang/clang_installation.pri
+@@ -209,8 +209,8 @@ isEmpty(LLVM_VERSION) {
+     isEmpty(QTC_CLANG_BUILDMODE_MISMATCH)|!equals(QTC_CLANG_BUILDMODE_MISMATCH, 1) {
+         CLANGFORMAT_MAIN_HEADER = $$LLVM_INCLUDEPATH/clang/Format/Format.h
+         exists($$CLANGFORMAT_MAIN_HEADER) {
+-            CLANGFORMAT_LIBS=-lclangFormat -lclangToolingInclusions -lclangToolingCore -lclangRewrite -lclangLex -lclangBasic
+-            ALL_CLANG_LIBS=-lclangFormat -lclangToolingInclusions -lclangTooling -lclangToolingCore \
++            CLANGFORMAT_LIBS=-lclangFormatIDE -lclangToolingInclusions -lclangToolingCore -lclangRewrite -lclangLex -lclangBasic
++            ALL_CLANG_LIBS=-lclangFormatIDE -lclangToolingInclusions -lclangTooling -lclangToolingCore \
+                            -lclangRewrite -lclangIndex -lclangFrontend -lclangParse -lclangSerialization \
+                            -lclangSema -lclangEdit -lclangAnalysis -lclangDriver -lclangDynamicASTMatchers \
+                            -lclangASTMatchers -lclangAST -lclangLex -lclangBasic
+-- 
+2.26.2
+
