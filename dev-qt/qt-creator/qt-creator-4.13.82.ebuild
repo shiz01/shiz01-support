@@ -117,7 +117,7 @@ unset x
 
 PATCHES=(
 	"${FILESDIR}"/0001-qt-creator-4.13.82-libclangformat-ide.patch
-	"${FILESDIR}"/
+#	"${FILESDIR}"/
 )
 
 llvm_check_deps() {
