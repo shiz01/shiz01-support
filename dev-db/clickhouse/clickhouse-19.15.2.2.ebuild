@@ -84,7 +84,7 @@ DEPEND="${RDEPEND}
 		dev-db/mysql-connector-c[static-libs]
 		kafka? ( dev-libs/librdkafka[static-libs] )
 	)
-	=dev-cpp/gtest-1.8*
+	dev-cpp/gtest
 	sys-libs/libtermcap-compat
 	dev-util/patchelf
 	>=sys-devel/lld-6.0.0
