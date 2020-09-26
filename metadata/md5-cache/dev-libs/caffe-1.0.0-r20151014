@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure install unpack
+DEPEND=>=dev-libs/boost-1.55 dev-cpp/glog dev-db/lmdb app-arch/snappy sci-libs/hdf5 dev-libs/leveldb dev-libs/protobuf dev-cpp/gflags atlas? ( sci-libs/atlas ) >=dev-vcs/git-1.8.2.1[curl]
+DESCRIPTION=caffe deep learning framework
+EAPI=5
+HOMEPAGE=http://caffe.berkeleyvision.org/
+IUSE=atlas
+LICENSE=BSD
+PROPERTIES=live
+RDEPEND=>=dev-libs/boost-1.55 dev-cpp/glog dev-db/lmdb app-arch/snappy sci-libs/hdf5 dev-libs/leveldb dev-libs/protobuf dev-cpp/gflags atlas? ( sci-libs/atlas )
+SLOT=1/1.0.0
+_eclasses_=git-r3	3e7ec3d6619213460c85e2aa48398441
+_md5_=f37bee2e1fc97090b8af2f9ddbdc27d8
