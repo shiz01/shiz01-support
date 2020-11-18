@@ -1,0 +1,30 @@
+From f8845414118bf1c42bf0f349b2810eab668b1405 Mon Sep 17 00:00:00 2001
+From: shiz01 <shiz01@tutanota.com>
+Date: Wed, 18 Nov 2020 20:43:25 +0700
+Subject: [PATCH] shitfix debug print.
+
+Signed-off-by: shiz01 <shiz01@tutanota.com>
+---
+ src/liboslexec/context.cpp | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/liboslexec/context.cpp b/src/liboslexec/context.cpp
+index 811dd20..bbddd03 100644
+--- a/src/liboslexec/context.cpp
++++ b/src/liboslexec/context.cpp
+@@ -95,9 +95,9 @@ ShadingContext::execute_init (ShaderGroup &sgroup, ShaderGlobals &ssg, bool run)
+     // Allocate enough space on the heap
+     size_t heap_size_needed = sgroup.llvm_groupdata_size();
+     if (heap_size_needed > m_heap.size()) {
+-        if (shadingsys().debug())
+-            info ("  ShadingContext %p growing heap to %llu",
+-                  this, (unsigned long long) heap_size_needed);
++//        if (shadingsys().debug())
++//            info ("  ShadingContext %p growing heap to %llu",
++//                  this, (unsigned long long) heap_size_needed);
+         m_heap.resize (heap_size_needed);
+     }
+     // Zero out the heap memory we will be using
+-- 
+2.26.2
+
