@@ -1,0 +1,23 @@
+From fd50f7c95e0d3b7d509e62a245205c15e25bb7b2 Mon Sep 17 00:00:00 2001
+Subject: [PATCH] fix build
+
+---
+ ethminer/main.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ethminer/main.cpp b/ethminer/main.cpp
+index 881934a..f1aec3d 100644
+--- a/ethminer/main.cpp
++++ b/ethminer/main.cpp
+@@ -112,7 +112,7 @@ public:
+             minelog << logLine;
+ 
+ #if ETH_DBUS
+-            dbusint.send(Farm::f().Telemetry().str().c_str().c_str());
++            dbusint.send(Farm::f().Telemetry().str().c_str());
+ #endif
+             // Resubmit timer
+             m_cliDisplayTimer.expires_from_now(boost::posix_time::seconds(m_cliDisplayInterval));
+-- 
+2.26.2
+
