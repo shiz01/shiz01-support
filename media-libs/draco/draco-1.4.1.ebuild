@@ -30,10 +30,6 @@ IUSE="+compat +gltf"
 # side-directory of the draco sources, therefore we restrict test for now.
 RESTRICT="test"
 
-PATCHES=(
-	"${FILESDIR}/${P}-0001-CMakeLists.txt-respect-library-dirs.patch"
-)
-
 DOCS=( AUTHORS CONTRIBUTING.md README.md )
 
 src_configure() {
