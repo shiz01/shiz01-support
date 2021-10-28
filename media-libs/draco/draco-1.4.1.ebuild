@@ -32,6 +32,13 @@ RESTRICT="test"
 
 DOCS=( AUTHORS CONTRIBUTING.md README.md )
 
+src_prepare(){
+	# fix missing include <limits>
+	local file="${S}/src/draco/io/parser_utils.cc"
+	{ echo '#include <limits>'; cat ${file}; } > ${file}.new && mv ${file}.new ${file};
+	cmake_src_prepare
+}
+
 src_configure() {
 	local mycmakeargs=(
 		# currently only used for javascript/emscripten build
