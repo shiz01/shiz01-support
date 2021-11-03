@@ -4,6 +4,7 @@ DEPEND=>=dev-libs/boost-1.62.0-r1:= dev-qt/qtcore:5 dev-qt/qtnetwork:5[ssl] >=de
 DESCRIPTION=BitTorrent client in C++ and Qt
 EAPI=7
 HOMEPAGE=https://www.qbittorrent.org https://github.com/qbittorrent
+INHERIT=xdg-utils
 IUSE=+dbus debug webui +X
 KEYWORDS=amd64 ~arm ~ppc64 x86
 LICENSE=GPL-2
@@ -11,5 +12,5 @@ RDEPEND=>=dev-libs/boost-1.62.0-r1:= dev-qt/qtcore:5 dev-qt/qtnetwork:5[ssl] >=d
 REQUIRED_USE=dbus? ( X )
 SLOT=0
 SRC_URI=https://github.com/qbittorrent/qBittorrent/archive/release-4.2.1.tar.gz -> qbittorrent-4.2.1.tar.gz
-_eclasses_=xdg-utils	27f9a2f19502b925ac117bd657aa2979
+_eclasses_=xdg-utils	4f29a8b760a594a212abe9c2ba957c31
 _md5_=d1ba852f9da46f4707e9f0f322c00ac0
