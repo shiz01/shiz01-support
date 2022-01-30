@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -12,8 +12,7 @@ S=${WORKDIR}/${MY_P}
 
 IUSE_OPENMPI_FABRICS="
 	openmpi_fabrics_ofed
-	openmpi_fabrics_knem
-	openmpi_fabrics_psm"
+	openmpi_fabrics_knem"
 
 IUSE_OPENMPI_RM="
 	openmpi_rm_pbs
@@ -31,13 +30,13 @@ SRC_URI="https://www.open-mpi.org/software/ompi/v$(ver_cut 1-2)/downloads/${MY_P
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~ia64 ~ppc ~ppc64 ~riscv ~sparc ~x86 ~amd64-linux"
-IUSE="cma cuda cxx fortran heterogeneous ipv6 java libompitrace peruse romio
+KEYWORDS="~alpha amd64 arm ~arm64 ~ia64 ppc ppc64 ~riscv sparc x86 ~amd64-linux"
+IUSE="cma cuda cxx fortran ipv6 java libompitrace peruse romio
 	${IUSE_OPENMPI_FABRICS} ${IUSE_OPENMPI_RM} ${IUSE_OPENMPI_OFED_FEATURES}"
 
-REQUIRED_USE="openmpi_rm_slurm? ( !openmpi_rm_pbs )
+REQUIRED_USE="
+	openmpi_rm_slurm? ( !openmpi_rm_pbs )
 	openmpi_rm_pbs? ( !openmpi_rm_slurm )
-	openmpi_fabrics_psm? ( openmpi_fabrics_ofed )
 	openmpi_ofed_features_control-hdr-padding? ( openmpi_fabrics_ofed )
 	openmpi_ofed_features_udcm? ( openmpi_fabrics_ofed )
 	openmpi_ofed_features_rdmacm? ( openmpi_fabrics_ofed )
@@ -49,15 +48,14 @@ CDEPEND="
 	!sys-cluster/nullmpi
 	>=dev-libs/libevent-2.0.22:=[${MULTILIB_USEDEP},threads]
 	dev-libs/libltdl:0[${MULTILIB_USEDEP}]
-	>=sys-apps/hwloc-2.0.2[${MULTILIB_USEDEP}]
+	>=sys-apps/hwloc-2.0.2:=[${MULTILIB_USEDEP}]
 	>=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}]
 	cuda? ( >=dev-util/nvidia-cuda-toolkit-6.5.19-r1:= )
-	openmpi_fabrics_ofed? ( || ( sys-cluster/rdma-core sys-fabric/ofed:* ) )
+	openmpi_fabrics_ofed? ( sys-cluster/rdma-core )
 	openmpi_fabrics_knem? ( sys-cluster/knem )
-	openmpi_fabrics_psm? ( sys-fabric/infinipath-psm:* )
 	openmpi_rm_pbs? ( sys-cluster/torque )
 	openmpi_rm_slurm? ( sys-cluster/slurm )
-	openmpi_ofed_features_rdmacm? ( || ( sys-cluster/rdma-core sys-fabric/librdmacm:* ) )"
+	openmpi_ofed_features_rdmacm? ( sys-cluster/rdma-core )"
 
 RDEPEND="${CDEPEND}
 	java? ( >=virtual/jre-1.8:* )"
@@ -68,19 +66,7 @@ DEPEND="${CDEPEND}
 MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/mpi.h
 	/usr/include/openmpi/ompi/mpi/java/mpiJava.h
-    /usr/include/shmem-compat.h
-    /usr/include/pshmemx.h
-    /usr/include/shmemx.h
-    /usr/include/pshmem.h
-    /usr/include/shmem.h
-    /usr/include/shmem.fh
-    /usr/include/openshmem/oshmem_config.h
-	/usr/include/openshmem/oshmem/constants.h
-	/usr/include/openshmem/oshmem/types.h
 	/usr/include/openmpi/mpiext/mpiext_cuda_c.h
-	/usr/include/openshmem/oshmem/version.h
-	/usr/include/openshmem/oshmem/frameworks.h
-
 )
 
 pkg_setup() {
@@ -126,8 +112,12 @@ multilib_src_configure() {
 		--with-libevent="${EPREFIX}/usr"
 		--with-libevent-libdir="${EPREFIX}/usr/$(get_libdir)"
 
+		# Re-enable for 5.0!
+		# See https://github.com/open-mpi/ompi/issues/9697#issuecomment-1003746357
+		# and https://bugs.gentoo.org/828123#c14
+		--disable-heterogeneous
+
 		$(use_enable cxx mpi-cxx)
-		$(use_enable heterogeneous)
 		$(use_enable ipv6)
 		$(use_enable libompitrace)
 		$(use_enable peruse)
@@ -144,7 +134,6 @@ multilib_src_configure() {
 		$(multilib_native_use_with cuda cuda "${EPREFIX}"/opt/cuda)
 		$(multilib_native_use_with openmpi_fabrics_ofed verbs "${EPREFIX}"/usr)
 		$(multilib_native_use_with openmpi_fabrics_knem knem "${EPREFIX}"/usr)
-		$(multilib_native_use_with openmpi_fabrics_psm psm "${EPREFIX}"/usr)
 		$(multilib_native_use_with openmpi_rm_pbs tm)
 		$(multilib_native_use_with openmpi_rm_slurm slurm)
 	)
