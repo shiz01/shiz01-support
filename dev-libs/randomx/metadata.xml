@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>telans@posteo.de</email>
+    <name>James Beddek</name>
+  </maintainer>
+  <use>
+    <flag name="native">
+	  Build for native cpu, don't supported with using distcc.
+    </flag>
+  </use>
+</pkgmetadata>
