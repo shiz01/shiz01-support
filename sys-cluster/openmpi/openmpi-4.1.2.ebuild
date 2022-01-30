@@ -67,6 +67,17 @@ MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/mpi.h
 	/usr/include/openmpi/ompi/mpi/java/mpiJava.h
 	/usr/include/openmpi/mpiext/mpiext_cuda_c.h
+    /usr/include/shmem-compat.h
+    /usr/include/pshmemx.h
+    /usr/include/shmemx.h
+    /usr/include/pshmem.h
+    /usr/include/shmem.h
+    /usr/include/shmem.fh
+    /usr/include/openshmem/oshmem_config.h
+ 	/usr/include/openshmem/oshmem/constants.h
+ 	/usr/include/openshmem/oshmem/types.h
+	/usr/include/openshmem/oshmem/version.h
+	/usr/include/openshmem/oshmem/frameworks.h
 )
 
 pkg_setup() {
