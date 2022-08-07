@@ -15,7 +15,8 @@ HOMEPAGE="https://github.com/MultiMC/Launcher"
 
 EGIT_REPO_URI="https://github.com/MultiMC/Launcher https://github.com/MultiMC/libnbtplusplus https://github.com/MultiMC/quazip"
 
-SRC_URI="https://files.multimc.org/downloads/mmc-stable-lin64.tar.gz"
+# SRC_URI="https://files.multimc.org/downloads/mmc-stable-lin64.tar.gz"
+SRC_URI="https://github.com/MultiMC/Launcher/archive/refs/tags/0.6.14.tar.gz"
 
 S="${WORKDIR}/${PN}-${PV}"
 
