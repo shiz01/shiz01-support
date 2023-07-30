@@ -1,13 +1,13 @@
-# Copyright 2020-2022 Gentoo Authors
+# Copyright 2020-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-inherit kernel-install toolchain-funcs
+inherit kernel-install toolchain-funcs unpacker
 
 MY_P=linux-${PV%.*}
 GENPATCHES_P=genpatches-${PV%.*}-$(( ${PV##*.} + 4 ))
-BINPKG=${P/-bin/}-1
+BINPKG=${P/-bin}-1
 
 DESCRIPTION="Pre-built Linux kernel with Gentoo patches"
 HOMEPAGE="https://www.kernel.org/"
@@ -16,26 +16,26 @@ SRC_URI+="
 	https://dev.gentoo.org/~alicef/dist/genpatches/${GENPATCHES_P}.base.tar.xz
 	https://dev.gentoo.org/~alicef/dist/genpatches/${GENPATCHES_P}.extras.tar.xz
 	amd64? (
-		https://dev.gentoo.org/~mgorny/binpkg/amd64/kernel/sys-kernel/gentoo-kernel/${BINPKG}.xpak
-			-> ${BINPKG}.amd64.xpak
+		https://dev.gentoo.org/~mgorny/binpkg/amd64/kernel/sys-kernel/gentoo-kernel/${BINPKG}.gpkg.tar
+			-> ${BINPKG}.amd64.gpkg.tar
 	)
 	arm64? (
-		https://dev.gentoo.org/~mgorny/binpkg/arm64/kernel/sys-kernel/gentoo-kernel/${BINPKG}.xpak
-			-> ${BINPKG}.arm64.xpak
+		https://dev.gentoo.org/~mgorny/binpkg/arm64/kernel/sys-kernel/gentoo-kernel/${BINPKG}.gpkg.tar
+			-> ${BINPKG}.arm64.gpkg.tar
 	)
 	ppc64? (
-		https://dev.gentoo.org/~mgorny/binpkg/ppc64le/kernel/sys-kernel/gentoo-kernel/${BINPKG}.xpak
-			-> ${BINPKG}.ppc64le.xpak
+		https://dev.gentoo.org/~mgorny/binpkg/ppc64le/kernel/sys-kernel/gentoo-kernel/${BINPKG}.gpkg.tar
+			-> ${BINPKG}.ppc64le.gpkg.tar
 	)
 	x86? (
-		https://dev.gentoo.org/~mgorny/binpkg/x86/kernel/sys-kernel/gentoo-kernel/${BINPKG}.xpak
-			-> ${BINPKG}.x86.xpak
+		https://dev.gentoo.org/~mgorny/binpkg/x86/kernel/sys-kernel/gentoo-kernel/${BINPKG}.gpkg.tar
+			-> ${BINPKG}.x86.gpkg.tar
 	)
 "
 S=${WORKDIR}
 
 LICENSE="GPL-2"
-KEYWORDS="~amd64 arm64 ppc64 x86"
+KEYWORDS="amd64 arm64 ppc64 x86"
 
 RDEPEND="
 	!sys-kernel/gentoo-kernel:${SLOT}
@@ -54,14 +54,6 @@ QA_PREBUILT='*'
 
 KV_LOCALVERSION='-gentoo-dist'
 KPV=${PV}${KV_LOCALVERSION}
-
-src_unpack() {
-	default
-	# ARCH=ppc64, but tarball is ppc64le. Update if we ever introduce ppc64be binpkg.
-	ebegin "Unpacking ${BINPKG}.${ARCH/%ppc64/ppc64le}.xpak"
-	tar -x < <(xz -c -d --single-stream "${DISTDIR}/${BINPKG}.${ARCH/%ppc64/ppc64le}.xpak")
-	eend ${?} || die "Unpacking ${BINPKG} failed"
-}
 
 src_prepare() {
 	local PATCHES=(
@@ -105,22 +97,22 @@ src_configure() {
 	)
 
 	mkdir modprep || die
-	cp "usr/src/linux-${KPV}/.config" modprep/ || die
+	cp "${BINPKG}/image/usr/src/linux-${KPV}/.config" modprep/ || die
 	emake -C "${MY_P}" "${makeargs[@]}" modules_prepare
 }
 
 src_test() {
 	kernel-install_test "${KPV}" \
-		"${WORKDIR}/usr/src/linux-${KPV}/$(dist-kernel_get_image_path)" \
-		"lib/modules/${KPV}"
+		"${WORKDIR}/${BINPKG}/image/usr/src/linux-${KPV}/$(dist-kernel_get_image_path)" \
+		"${BINPKG}/image/lib/modules/${KPV}"
 }
 
 src_install() {
-	mv lib usr "${ED}"/ || die
+	mv "${BINPKG}"/image/{lib,usr} "${ED}"/ || die
 
 	# FIXME: requires proper mount-boot
-	if [[ -d boot/dtbs ]]; then
-		mv boot "${ED}"/ || die
+	if [[ -d ${BINPKG}/image/boot/dtbs ]]; then
+		mv "${BINPKG}"/image/boot "${ED}"/ || die
 	fi
 
 	# strip out-of-source build stuffs from modprep
